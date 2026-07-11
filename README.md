@@ -123,9 +123,6 @@ That's it. No Python, no Node, no install.
 
 ## Roadmap
 
-- [x] Core time-travel debugging via `git worktree`
-- [x] Natural language time resolution ("3 hours ago", "last night")
-- [x] Automatic worktree cleanup
 - [ ] Multi-repo temporal analysis (debug across service boundaries)
 - [ ] CI/CD integration (auto-trigger on failed builds)
 - [ ] Diff analysis between historical and current versions
@@ -148,7 +145,6 @@ cd temporal-debug-skill
 ## License
 
 [MIT](https://opensource.org/licenses/MIT) — use it, fork it, ship it.
-
 
 
 <p align="center">
