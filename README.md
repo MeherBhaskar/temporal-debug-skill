@@ -16,6 +16,9 @@
 
 An **agentic skill** that teaches your AI agent to time-travel through git history when debugging. No tools, no setup — just drop the skill in and it activates automatically when it detects temporal bug context.
 
+<p align="center">
+  <img src="assets/demo.svg" width="100%" alt="Temporal Debug Demo">
+</p>
 ---
 
 ## The Problem
