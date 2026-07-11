@@ -6,9 +6,9 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/MeherBhaskar/temporal-debug-skill/stargazers"><img src="https://img.shields.io/github/stars/MeherBhaskar/temporal-debug-skill?style=flat&color=f5a623" alt="GitHub Stars"></a>
-  <a href="https://github.com/MeherBhaskar/temporal-debug-skill/releases/latest"><img src="https://img.shields.io/github/v/release/MeherBhaskar/temporal-debug-skill?style=flat&color=007ec6" alt="Latest Release"></a>
-  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/github/license/MeherBhaskar/temporal-debug-skill?color=blue" alt="License"></a>
+  <a href="https://github.com/MeherBhaskar/temporal-debug-skill/stargazers"><img src="https://img.shields.io/github/stars/MeherBhaskar/temporal-debug-skill?style=flat&color=f5a623&cacheSeconds=0" alt="GitHub Stars"></a>
+  <a href="https://github.com/MeherBhaskar/temporal-debug-skill/releases/latest"><img src="https://img.shields.io/github/v/release/MeherBhaskar/temporal-debug-skill?style=flat&color=007ec6&cacheSeconds=0" alt="Latest Release"></a>
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/github/license/MeherBhaskar/temporal-debug-skill?color=blue&cacheSeconds=0" alt="License"></a>
   <a href="https://github.com/MeherBhaskar/temporal-debug-skill/pulls"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen" alt="PRs Welcome"></a>
 </p>
 
