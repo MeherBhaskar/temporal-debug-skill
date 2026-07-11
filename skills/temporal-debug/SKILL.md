@@ -136,6 +136,7 @@ git worktree add "$WORKTREE_B" "$TARGET_COMMIT_B"
 - Trace the request flow across service boundaries
 - Check if version mismatches between services caused the bug
 - Look for API contract violations between services at that commit
+- Compare dependency versions (package.json, pom.xml, go.mod, Cargo.toml, etc.)
 
 ### Cleanup All Worktrees
 ```bash
@@ -169,3 +170,19 @@ git worktree prune
 > 5. Check if health check endpoint changed, resource limits, etc.
 > 6. `git worktree remove --force /tmp/temporal-debug-f8e9d0a`
 > 7. Report with findings tied to that specific deploy commit
+
+## Example: Microservice Debugging
+
+> **User:** "API gateway returns 502 from auth-service since yesterday's deploy"
+>
+> **Agent:**
+> 1. Ask: "Which repos?" → User: "api-gateway, auth-service"
+> 2. Ask: "Deploy time?" → User: "yesterday 3pm"
+> 3. In api-gateway: `git log --before="yesterday 15:00" -1 --format="%H"` → `aaa111`
+> 4. In auth-service: `git log --before="yesterday 15:00" -1 --format="%H"` → `bbb222`
+> 5. Create worktrees for both
+> 6. Check auth-service health endpoint contract at `bbb222`
+> 7. Check api-gateway client call at `aaa111`
+> 8. Found: auth-service changed `/health` → `/healthz` but gateway still calls old path
+> 9. Cleanup both worktrees
+> 10. Report: "Contract violation at commit bbb222 - auth-service renamed health endpoint"
