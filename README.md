@@ -47,20 +47,20 @@ The skill activates automatically when your agent detects a time-anchored bug:
 
 ## Quick Start
 
-### Claude Code (recommended)
+### Install via [skills.sh](https://skills.sh) (recommended)
 
 ```bash
-# Clone directly into your project's skills directory
-git clone https://github.com/MeherBhaskar/temporal-debug-skill.git skills/temporal-debug-skill
+npx skills add MeherBhaskar/temporal-debug-skill
 ```
 
-The skill activates automatically — no configuration needed.
-
-### Generic Agent
+This auto-detects your agents (Claude Code, Cursor, Codex, Windsurf, etc.) and installs the skill to the right directory. No manual setup needed.
 
 ```bash
-# Copy the skill definition to your agent's skill directory
-cp -r temporal-debug-skill/skills/temporal-debug/ /path/to/your/skills/
+# Install to specific agents only
+npx skills add MeherBhaskar/temporal-debug-skill --agent claude-code --agent cursor
+
+# Install globally (available across all projects)
+npx skills add MeherBhaskar/temporal-debug-skill -g
 ```
 
 ---
@@ -121,24 +121,30 @@ That's it. No Python, no Node, no install.
 
 ---
 
-## Roadmap
+## Why Not Just Tell My Agent to Use Git?
 
-- [ ] Multi-repo temporal analysis (debug across service boundaries)
-- [ ] CI/CD integration (auto-trigger on failed builds)
-- [ ] Diff analysis between historical and current versions
-- [ ] Automated patch generation from root cause
-- [ ] Observability platform integration (Sentry, Datadog, PagerDuty)
-- [ ] VS Code extension for visual time-travel
+You could paste "use `git log --before` and `git worktree add`" into your agent every time. But:
+
+- You'd have to **remember** to do it on every temporal bug
+- You'd need to handle **worktree cleanup** (agents forget, leaving stale worktrees)
+- You'd need to know the right git incantation for each clue type (tags vs. relative time vs. ISO dates)
+- The agent would likely still **default to analyzing HEAD** and miss the historical context
+
+This skill makes it automatic. The agent detects temporal context and activates the right workflow — no prompting required.
 
 ---
 
 ## Contributing
+
+We welcome contributions! The entire skill lives in a single file: [`skills/temporal-debug/SKILL.md`](skills/temporal-debug/SKILL.md).
 
 ```bash
 git clone https://github.com/MeherBhaskar/temporal-debug-skill.git
 cd temporal-debug-skill
 # Edit skills/temporal-debug/SKILL.md
 ```
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines and design principles.
 
 ---
 
