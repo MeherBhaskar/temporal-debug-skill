@@ -58,14 +58,16 @@ npx skills add MeherBhaskar/temporal-debug-skill
 
 This auto-detects your agents (Claude Code, Cursor, Codex, Windsurf, etc.) and installs the skill to the right directory. No manual setup needed.
 
-```bash
-# Install to specific agents only
-npx skills add MeherBhaskar/temporal-debug-skill --agent claude-code --agent cursor
+### Manual Installation (Alternative)
 
-# Install globally (available across all projects)
-npx skills add MeherBhaskar/temporal-debug-skill -g
+If you don't want to use `npx`, you can manually clone this workflow and point your AI agent directly to the skill file:
+
+```bash
+git clone https://github.com/MeherBhaskar/temporal-debug-skill.git .agents/temporal-debug
 ```
 
+Then, simply tell your coding agent (Cursor, Claude Code, etc.) to use it:
+> *"Load `.agents/temporal-debug/skills/temporal-debug/SKILL.md` as a persistent rule."*
 ---
 
 ## What the Skill Does (and Doesn't Do)
