@@ -1,4 +1,0 @@
-{"version": 2, "width": 80, "height": 24, "timestamp": 1783798904, "env": {"SHELL": "/usr/bin/zsh", "TERM": "xterm-256color"}, "title": "Temporal Debug Skill Demo"}
-[0.002901, "o", "=== Temporal Debug Skill Demo ===\r\n\r\nScenario: Production crash from 3 hours ago\r\nError: NullPointerException in PaymentService.java\r\n"]
-[0.003257, "o", "\r\nStep 1: Resolve the target commit\r\n"]
-[0.005924, "o", "\u001b[?1049h\u001b[22;0;0t\u001b[?1h\u001b=\r5e3b7b3468fab2afce9cb51ca83b5ffb83065a46\u001b[m\r\n\u001b[7m(END)\u001b[27m\u001b[K"]
