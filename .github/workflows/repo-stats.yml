@@ -1,0 +1,40 @@
+name: Repository Traffic Stats
+
+on:
+  schedule:
+    - cron: "0 23 * * *"  # Run daily at 23:00 UTC
+  workflow_dispatch:  # Allow manual trigger
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  stats:
+    name: Capture GitHub Traffic Stats
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Capture traffic stats
+        uses: jgehrcke/github-repo-stats@main
+        with:
+          repository: MeherBhaskar/temporal-debug-skill
+          ghtoken: ${{ secrets.GHRS_GITHUB_API_TOKEN }}
+          databranch: github-repo-stats
+          # Optional: track additional repos (for microservices)
+          # additional-repos: |
+          #   MeherBhaskar/temporal-debug-skill
+          #   owner/repo-2
+          #   owner/repo-3
+
+      - name: Deploy to GitHub Pages
+        if: github.ref == 'refs/heads/main'
+        uses: actions/deploy-pages@v4
+        with:
+          path: .
+          token: ${{ secrets.GITHUB_TOKEN }}
