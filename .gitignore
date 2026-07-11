@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
+
+# Build
+dist/
+build/
+*.egg/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Demo artifacts
+demo.tape
+vhs_*/
+docs/demo.gif
+
+# Coverage
+.coverage
+htmlcov/
+.coverage.*
+
+# Temp
+*.log
+*.tmp
