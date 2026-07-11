@@ -22,6 +22,8 @@ from recent unrelated changes.
 - User references a specific version: "v2.4.1", "release-2024-01", tag name
 - User shares an error log with a timestamp
 - User suspects a recent change introduced a bug but current code looks fine
+- **Deployment errors** - user says "deploy failed" or "production is down" with
+  a version/timestamp reference
 
 ## When NOT to Use
 
@@ -43,7 +45,12 @@ Extract temporal clues from the user's message and resolve to a commit hash:
 | ISO date (e.g., "2024-01-15") | `git log --before="2024-01-15" -1 --format="%H"` |
 | "last night" / "yesterday" | `git log --before="yesterday 23:59" -1 --format="%H"` |
 
-If multiple conflicting clues, ask the user which to use.
+**For deployment errors:**
+- If user mentions a release version (e.g., "deploy of v2.4.1 failed"), use the tag
+- If user mentions a branch (e.g., "release/v2.4 branch"), use the branch tip
+- If user says "current production deploy", check if there's a `production` or `main` branch deployed
+
+If multiple conflicting clues, **ask the user which to use**.
 If user gives explicit commit hash, use it directly — no resolution needed.
 
 Store the resolved hash as `TARGET_COMMIT`.
@@ -90,6 +97,54 @@ git worktree prune
 4. **If user gives explicit commit hash, skip temporal resolution**
 5. **Work inside the worktree path for all file reads/analysis**
 
+## Deployment Error Context
+
+When the user reports a deployment/production error, gather this context:
+
+| Info Needed | How to Get It |
+|-------------|---------------|
+| **Release version/tag** | Ask: "What version was being deployed?" (e.g., `v2.4.1`) |
+| **Branch** | Ask: "Which branch was deployed?" (e.g., `release/v2.4`, `main`) |
+| **Timestamp** | Ask: "When did the deploy start/fail?" |
+| **Environment** | Ask: "Which environment?" (staging, production, etc.) |
+| **Error logs** | User provides logs, or check CI/CD system |
+
+**If missing info:** Ask the user for the specific version/tag/branch that was deployed, then resolve to a commit using the table in Step 1.
+
+## Multi-Repository Support
+
+For bugs spanning multiple repositories (e.g., microservices, monorepo with submodules):
+
+### Setup
+1. **Identify all affected repos** - Ask user: "Which repositories are involved?"
+2. **Create worktrees per repo** - Repeat the workflow for each repository
+3. **Use consistent naming** - `WORKTREE_BASE/repo-name-timestamp`
+
+### Example Workflow
+```bash
+# For each repo
+cd /path/to/repo-A
+WORKTREE_A=$(mktemp -d -t temporal-debug-XXXXXX)
+git worktree add "$WORKTREE_A" "$TARGET_COMMIT_A"
+
+cd /path/to/repo-B
+WORKTREE_B=$(mktemp -d -t temporal-debug-XXXXXX)
+git worktree add "$WORKTREE_B" "$TARGET_COMMIT_B"
+```
+
+### Cross-Repo Analysis
+- Trace the request flow across service boundaries
+- Check if version mismatches between services caused the bug
+- Look for API contract violations between services at that commit
+
+### Cleanup All Worktrees
+```bash
+for wt in "$WORKTREE_A" "$WORKTREE_B" ...; do
+  git -C $(dirname $wt) worktree remove --force "$wt"
+done
+git worktree prune
+```
+
 ## Example
 
 > **User:** "We have a NullPointerException in PaymentService from 3 hours ago"
@@ -101,3 +156,16 @@ git worktree prune
 > 4. Analyze, find root cause
 > 5. `git worktree remove --force /tmp/temporal-debug-a1b2c3d`
 > 6. Report: "In commit a1b2c3d (3 hours ago), PaymentService line 42 accesses user.getEmail() without null check..."
+
+## Example: Deployment Error
+
+> **User:** "Deploy of v2.4.1 to production failed with timeout"
+>
+> **Agent:**
+> 1. Ask: "What branch was v2.4.1 built from?" → User: "release/v2.4"
+> 2. `git rev-list -1 v2.4.1` → `f8e9d0a` (or use branch tip if tag missing)
+> 3. `git worktree add /tmp/temporal-debug-f8e9d0a f8e9d0a`
+> 4. Analyze deployment scripts, config, health checks at that commit
+> 5. Check if health check endpoint changed, resource limits, etc.
+> 6. `git worktree remove --force /tmp/temporal-debug-f8e9d0a`
+> 7. Report with findings tied to that specific deploy commit
