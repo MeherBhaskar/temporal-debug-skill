@@ -82,6 +82,17 @@ Work **inside the worktree path**. Use normal agent capabilities:
 Reference the historical commit in your analysis. Show what changed since
 using `git diff $TARGET_COMMIT HEAD -- <file>` if relevant.
 
+**Diff Analysis (for regression detection):**
+```bash
+# After finding root cause, show what changed
+git diff $TARGET_COMMIT HEAD -- <relevant-files>
+
+# Filter to focus on likely culprits:
+# - Config changes: docker-compose.yml, .env, config/, *.yaml, *.toml
+# - Dependencies: package.json, go.mod, pom.xml, Cargo.toml, requirements.txt
+# - Refactors: large diffs in core logic files
+```
+
 ### 5. Clean Up
 
 ```bash
