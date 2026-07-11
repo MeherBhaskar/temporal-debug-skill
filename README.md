@@ -152,7 +152,15 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines and design principles.
 
 [MIT](https://opensource.org/licenses/MIT) — use it, fork it, ship it.
 
+---
 
-<p align="center">
-  <sub>Built for the agentic era. Stop debugging ghosts.</sub>
-</p>
+<div align="center">
+
+### Support the Project
+If you find this skill helpful for your workflows, we'd appreciate a star!
+
+[![GitHub stars](https://img.shields.io/github/stars/MeherBhaskar/temporal-debug-skill?style=social)](https://github.com/MeherBhaskar/temporal-debug-skill/stargazers)
+
+*Built for the agentic era. Stop debugging ghosts.*
+
+</div>
